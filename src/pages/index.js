@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import useSWR from 'swr'
 
 import Layout from '@components/Layout';
 import Section from '@components/Section';
@@ -10,7 +11,12 @@ import styles from '@styles/Home.module.scss';
 
 const DEFAULT_CENTER = [38.907132, -77.036546]
 
+const fetcher = (...args) => fetch(...args).then(res => res.json())
+const API = "https://firebasestorage.googleapis.com/v0/b/santa-tracker-firebase.appspot.com/o/route%2Fsanta_en.json?alt=media&2018b"
+
 export default function Home() {
+  const { data, error, isLoading } = useSWR(API, fetcher)
+  console.log(data)
   return (
     <Layout>
       <Head>
@@ -32,11 +38,15 @@ export default function Home() {
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                 />
-                <Marker position={DEFAULT_CENTER}>
-                  <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
-                  </Popup>
-                </Marker>
+                {data.destinations.map(
+                  destination => (
+                    <Marker position={[destination.location.lat, destination.location.lng]}>
+                      <Popup>
+                        A pretty CSS3 popup. <br /> Easily customizable.
+                      </Popup>
+                    </Marker>
+                  )
+                )}
               </>
             )}
           </Map>
