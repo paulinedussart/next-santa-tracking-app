@@ -11,7 +11,7 @@ import styles from '@styles/Home.module.scss';
 import { getTimeFromObjectToString } from './hook/time'
 import { markerLogic } from "./hook/markerLogic"
 
-const DEFAULT_CENTER = [38.907132, -77.036546]
+const DEFAULT_CENTER = [43.2569629, -2.9234409]
 
 const fetcher = (...args) => fetch(...args).then(res => res.json())
 const API = "https://firebasestorage.googleapis.com/v0/b/santa-tracker-firebase.appspot.com/o/route%2Fsanta_en.json?alt=media&2018b"
@@ -50,10 +50,10 @@ export default function Home() {
       <Section>
         <Container>
           <h1 className={styles.title}>
-            Next.js Leaflet Starter
+            Santa Tracker
           </h1>
 
-          <Map className={styles.homeMap} width="800" height="400" center={DEFAULT_CENTER} zoom={3}>
+          <Map className={styles.homeMap} width="800" height="400" center={DEFAULT_CENTER} zoom={4}>
             {({ TileLayer, Marker, Popup }, L) => (
               <>
                 <TileLayer
@@ -85,14 +85,6 @@ export default function Home() {
               </>
             )}
           </Map>
-
-          <p className={styles.description}>
-            <code className={styles.code}>yarn create next-app -e https://github.com/colbyfayock/next-leaflet-starter</code>
-          </p>
-
-          <p className={styles.view}>
-            <Button href="https://github.com/colbyfayock/next-leaflet-starter">Vew on GitHub</Button>
-          </p>
         </Container>
       </Section>
     </Layout >
