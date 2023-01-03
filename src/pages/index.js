@@ -17,6 +17,28 @@ const API = "https://firebasestorage.googleapis.com/v0/b/santa-tracker-firebase.
 
 export default function Home() {
   const { data, error, isLoading } = useSWR(API, fetcher)
+
+  const currentDate = new Date()
+  const currentYear = currentDate.getFullYear()
+
+  // update 2019 old date GOOGLE API to 2023
+  const destinations = data?.destinations.map((destination) => {
+    const { arrival, departure } = destination
+
+    const arrivalDate = new Date(arrival)
+    const departureDate = new Date(departure)
+
+    arrivalDate.setFullYear(currentYear)
+    departureDate.setFullYear(currentYear)
+
+    return {
+      ...destination,
+      arrival: arrivalDate.getTime(),
+      departure: departureDate.getTime()
+    }
+
+  })
+
   return (
     <Layout>
       <Head>
