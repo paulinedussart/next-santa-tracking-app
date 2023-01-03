@@ -17,7 +17,6 @@ const API = "https://firebasestorage.googleapis.com/v0/b/santa-tracker-firebase.
 
 export default function Home() {
   const { data, error, isLoading } = useSWR(API, fetcher)
-  console.log(data)
   return (
     <Layout>
       <Head>
@@ -33,7 +32,7 @@ export default function Home() {
           </h1>
 
           <Map className={styles.homeMap} width="800" height="400" center={DEFAULT_CENTER} zoom={3}>
-            {({ TileLayer, Marker, Popup }) => (
+            {({ TileLayer, Marker, Popup }, L) => (
               <>
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -41,7 +40,13 @@ export default function Home() {
                 />
                 {data?.destinations.map(
                   ({ arrival, city, departure, id, location, region }) => (
-                    <Marker key={id} position={[location.lat, location.lng]}>
+                    <Marker
+                      key={id}
+                      position={[location.lat, location.lng]}
+                      icon={L.icon({
+                        iconUrl: "leaflet/images/tree-marker-icon.png"
+                      })}
+                    >
                       <Popup>
                         <b> 🏛 City : </b> {city}<br />
                         <b> 🗺 Region : </b> {region}<br />
