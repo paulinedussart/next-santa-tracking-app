@@ -1,6 +1,9 @@
 #  Santa Tracking App 🎄🎁
 
-Mapping project of Santa's passage to practice Next.js and Leaflet. 🎅🏻
+Mapping project of Santa's passage to practice Next.js and Leaflet. 🎅🏻 
+
+
+<img width="1160" alt="Capture d’écran 2023-01-03 à 18 29 34" src="https://user-images.githubusercontent.com/43919015/210409887-09d393db-bd50-4cee-b4fe-514c8c92bed1.png">
 
 ##  **🎓 Learnings**
 * [Leaflet](https://leafletjs.com/)
