@@ -8,6 +8,7 @@ import Map from '@components/Map';
 import Button from '@components/Button';
 
 import styles from '@styles/Home.module.scss';
+import { getTimeFromObjectToString } from './hook/time'
 
 const DEFAULT_CENTER = [38.907132, -77.036546]
 
@@ -31,18 +32,21 @@ export default function Home() {
             Next.js Leaflet Starter
           </h1>
 
-          <Map className={styles.homeMap} width="800" height="400" center={DEFAULT_CENTER} zoom={12}>
+          <Map className={styles.homeMap} width="800" height="400" center={DEFAULT_CENTER} zoom={3}>
             {({ TileLayer, Marker, Popup }) => (
               <>
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                 />
-                {data.destinations.map(
-                  destination => (
-                    <Marker position={[destination.location.lat, destination.location.lng]}>
+                {data?.destinations.map(
+                  ({ arrival, city, departure, id, location, region }) => (
+                    <Marker key={id} position={[location.lat, location.lng]}>
                       <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
+                        <b> 🏛 City : </b> {city}<br />
+                        <b> 🗺 Region : </b> {region}<br />
+                        <b> 🛬 Arrival : </b>{getTimeFromObjectToString(arrival)} <br />
+                        <b> 🛫 Departure : </b>{getTimeFromObjectToString(departure)}
                       </Popup>
                     </Marker>
                   )
