@@ -9,6 +9,7 @@ import Button from '@components/Button';
 
 import styles from '@styles/Home.module.scss';
 import { getTimeFromObjectToString } from './hook/time'
+import { markerLogic } from "./hook/markerLogic"
 
 const DEFAULT_CENTER = [38.907132, -77.036546]
 
@@ -17,8 +18,7 @@ const API = "https://firebasestorage.googleapis.com/v0/b/santa-tracker-firebase.
 
 export default function Home() {
   const { data, error, isLoading } = useSWR(API, fetcher)
-
-  const currentDate = new Date()
+  const currentDate = new Date("25 decembre 2023 02:30:56")
   const currentYear = currentDate.getFullYear()
 
   // update 2019 old date GOOGLE API to 2023
@@ -60,23 +60,27 @@ export default function Home() {
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
                 />
-                {data?.destinations.map(
-                  ({ arrival, city, departure, id, location, region }) => (
-                    <Marker
-                      key={id}
-                      position={[location.lat, location.lng]}
-                      icon={L.icon({
-                        iconUrl: "leaflet/images/tree-marker-icon.png"
-                      })}
-                    >
-                      <Popup>
-                        <b> 🏛 City : </b> {city}<br />
-                        <b> 🗺 Region : </b> {region}<br />
-                        <b> 🛬 Arrival : </b>{getTimeFromObjectToString(arrival)} <br />
-                        <b> 🛫 Departure : </b>{getTimeFromObjectToString(departure)}
-                      </Popup>
-                    </Marker>
-                  )
+                {destinations?.map(
+                  ({ arrival, city, departure, id, location, region }) => {
+
+                    return (
+                      < Marker
+                        key={id}
+                        position={[location.lat, location.lng]}
+                        icon={
+                          L.icon({
+                            iconUrl: markerLogic(arrival, departure, currentDate)
+                          })
+                        }
+                      >
+                        <Popup>
+                          <b> 🏛 City : </b> {city}<br />
+                          <b> 🗺 Region : </b> {region}<br />
+                          <b> 🛬 Arrival : </b>{getTimeFromObjectToString(arrival)} <br />
+                          <b> 🛫 Departure : </b>{getTimeFromObjectToString(departure)}
+                        </Popup>
+                      </Marker>)
+                  }
                 )}
               </>
             )}
@@ -91,6 +95,6 @@ export default function Home() {
           </p>
         </Container>
       </Section>
-    </Layout>
+    </Layout >
   )
 }
